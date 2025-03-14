@@ -2,15 +2,65 @@ import './App.css'
 import Vertex from './components/Vertex.tsx'
 import { Node } from './components/Rule.ts'
 
-function App() {
-  const node4 = new Node("V", []);
-  const node5 = new Node("NP", []);
-  const node6 = new Node("D", []);
-  const node7 = new Node("N", []);
-  const node2 = new Node("NP", [node6, node7]);
-  const node3 = new Node("VP", [node4, node5]);
-  const node = new Node("START", [node2, node3]);
+function parseNode(data: any): Node {
+  const node = new Node(data.LHS, data.RHS.map(parseNode)); // Recursively create nodes
+  return node;
+}
 
+function App() {
+  const tree = {
+    "LHS": "START",
+    "RHS": [
+      {
+        "LHS": "NP",
+        "RHS": [
+          {
+            "LHS": "D",
+            "RHS": [
+              {
+                LHS: "The",
+                RHS: []
+              }
+            ]
+          },
+          {
+            "LHS": "N",
+            "RHS": [
+              {
+                LHS: "man",
+                RHS: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "LHS": "VP",
+        "RHS": [
+          {
+            "LHS": "V",
+            "RHS": [
+              {
+                LHS: "saw",
+                RHS: []
+              }
+            ]
+          },
+          {
+            "LHS": "NP",
+            "RHS": [
+              {
+                LHS: "Mary",
+                RHS: []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
+  const node : Node = parseNode(tree);
   const depth = 1;
   return (
     
