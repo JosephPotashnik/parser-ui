@@ -13,6 +13,20 @@ export default function Vertex({ node, parentCoords, spacing }: VertexProps): JS
 
     const x =  spacing[0] * (node.x_loc-1);
     const y = spacing[1] * (node.y_loc);
+    let children;
+if (node.RHS && node.RHS.length === 1 && node.RHS[0].RHS.length === 0) {
+    children = (
+        <text x={x-10} y={y + 25} fontSize="14" fill="black" alignmentBaseline="middle">
+            {node.RHS[0].LHS}
+        </text>
+    );
+} else if (node.RHS && node.RHS.length > 0) {
+    children = node.RHS.map((n, index) => (
+        <Vertex key={index} node={n} parentCoords={[x, y]} spacing={spacing} />
+    ));
+}
+
+
     return (
         <g>
            {parentCoords && (
@@ -23,9 +37,7 @@ export default function Vertex({ node, parentCoords, spacing }: VertexProps): JS
 
             <text x={x + 15} y={y} fontSize="14" fill="black" alignmentBaseline="middle">{node.LHS}</text>
 
-            {node.RHS && node.RHS.length > 0 &&
-                node.RHS.map((n, index) => <Vertex key={index} node={n} parentCoords={[x,y]} spacing= {spacing}/>)
-            }
+            {children}
         </g>
     );
 }

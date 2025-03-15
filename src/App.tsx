@@ -1,7 +1,7 @@
 import './App.css'
 import Vertex from './components/Vertex.tsx'
 import { Node } from './components/Rule.ts'
-import { parseToJSON, jsonToBracketString} from './parseBracketedStrings.ts'
+import { parseToJSON} from './parseBracketedStrings.ts'
 
 function parseNode(data: any): Node {
   const node = new Node(data.LHS, data.RHS.map(parseNode)); // Recursively create nodes
@@ -10,8 +10,8 @@ function parseNode(data: any): Node {
 
 function App() {
   
-  const str1 = "(START (T1 (NP (PN John)) (VP (VP (V1 loved) (NP (D the) (N girl))) (PP (P with) (NP (D the) (N bells))))))";
-  //const str1 = "(START (T1 (NP (PN John)) (VP (V1 loved) (NP (NP (D the) (N girl)) (PP (P with) (NP (D the) (N bells)))))))";
+  //const str1 = "(START (T1 (NP (PN John)) (VP (VP (V1 loved) (NP (D the) (N girl))) (PP (P with) (NP (D the) (N bells))))))";
+  const str1 = "(START (T1 (NP (PN John)) (VP (V1 loved) (NP (NP (D the) (N girl)) (PP (P with) (NP (D the) (N bells)))))))";
   const treee = parseToJSON(str1);
 
   const node : Node = parseNode(treee);

@@ -37,13 +37,13 @@ export function parseToJSON(str: string): MyTreeNode {
   return parseRecursive(str);
 }
 
-export function jsonToBracketString(json: MyTreeNode): string {
-  // Base case: if the JSON object has no RHS, it's a terminal (simple word)
-  if (json.RHS.length === 0) {
-    return json.LHS; // Return the terminal word without brackets
-  }
+// export function jsonToBracketString(json: MyTreeNode): string {
+//   // Base case: if the JSON object has no RHS, it's a terminal (simple word)
+//   if (json.RHS.length === 0) {
+//     return json.LHS; // Return the terminal word without brackets
+//   }
 
-  // Otherwise, construct the bracketed string
-  let rhsString = json.RHS.map((sub: MyTreeNode) => jsonToBracketString(sub)).join(' ');
-  return `(${json.LHS} ${rhsString})`; // Only add brackets here, not inside the map
-}
+//   // Otherwise, construct the bracketed string
+//   let rhsString = json.RHS.map((sub: MyTreeNode) => jsonToBracketString(sub)).join(' ');
+//   return `(${json.LHS} ${rhsString})`; // Only add brackets here, not inside the map
+// }
