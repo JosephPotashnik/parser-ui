@@ -8,7 +8,7 @@
             "LHS": "D",
             "RHS": [
               {
-                "LHS": "The",
+                "LHS": "a",
                 "RHS": []
               }
             ]
@@ -17,7 +17,7 @@
             "LHS": "N",
             "RHS": [
               {
-                "LHS": "man",
+                "LHS": "dwarf",
                 "RHS": []
               }
             ]
@@ -35,7 +35,7 @@
             "LHS": "V",
             "RHS": [
               {
-                "LHS": "saw",
+                "LHS": "met",
                 "RHS": []
               }
             ]
@@ -44,7 +44,7 @@
             "LHS": "NP",
             "RHS": [
               {
-                "LHS": "Mary",
+                "LHS": "Bilbo",
                 "RHS": []
               }
             ]

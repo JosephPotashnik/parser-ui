@@ -12,14 +12,23 @@ function App() {
   
   const node : Node = parseNode(tree);
   node.assignDepths(0);
-  node.assignWidths(0);
+  const width = node.assignWidths(0);
   const depth : number = node.getMaxDepth();
+  const svgWidth : number = 800;
+  const svgHeight : number = 600;
+  const spacingX : number = svgWidth / (width -1);
+  const spacingY : number = svgHeight / (depth -1);
+
+  console.log("spacing is");
+    console.log(spacingX);
+    console.log(spacingY);     
   return (
-    
     <>
-      <Vertex node = {node}> </Vertex>
-      <p> depth of tree is {depth}</p>
-    </>
+   <svg width={svgWidth} height={svgHeight} viewBox={`-50 -50 ${svgWidth+100} ${svgHeight+100}`} xmlns="http://www.w3.org/2000/svg"> 
+
+      <Vertex node = {node} spacing = {[spacingX, spacingY]}> </Vertex>
+     </svg>
+    </> 
   )
 }
 
