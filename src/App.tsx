@@ -19,9 +19,6 @@ function App() {
   const spacingX : number = svgWidth / (width -1);
   const spacingY : number = svgHeight / (depth -1);
 
-  console.log("spacing is");
-    console.log(spacingX);
-    console.log(spacingY);     
   return (
     <>
    <svg width={svgWidth} height={svgHeight} viewBox={`-50 -50 ${svgWidth+100} ${svgHeight+100}`} xmlns="http://www.w3.org/2000/svg"> 

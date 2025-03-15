@@ -13,8 +13,6 @@ export default function Vertex({ node, parentCoords, spacing }: VertexProps): JS
 
     const x =  spacing[0] * (node.x_loc-1);
     const y = spacing[1] * (node.y_loc);
-    console.log("depth of");
-    console.log(node.y_loc);
     return (
         <g>
            {parentCoords && (

@@ -40,11 +40,6 @@ export class Node {
                 const widthOfOnlyChild : number = this.RHS[0].assignWidths(currentWidth);
                 currentWidth = widthOfOnlyChild;
                 this.x_loc = this.RHS[0].x_loc;
-                if (this.LHS === "VP")
-                    {
-                        console.log("VP here and child width is:");
-                        console.log(widthOfOnlyChild);
-                    }
                 return currentWidth;
             }
             else
