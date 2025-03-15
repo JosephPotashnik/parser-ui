@@ -1,0 +1,57 @@
+{
+    "LHS": "START",
+    "RHS": [
+      {
+        "LHS": "NP",
+        "RHS": [
+          {
+            "LHS": "D",
+            "RHS": [
+              {
+                "LHS": "The",
+                "RHS": []
+              }
+            ]
+          },
+          {
+            "LHS": "N",
+            "RHS": [
+              {
+                "LHS": "man",
+                "RHS": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "LHS": "VP",
+        "RHS" :
+        [
+        {
+        "LHS": "VPBAR",
+        "RHS": [
+          {
+            "LHS": "V",
+            "RHS": [
+              {
+                "LHS": "saw",
+                "RHS": []
+              }
+            ]
+          },
+          {
+            "LHS": "NP",
+            "RHS": [
+              {
+                "LHS": "Mary",
+                "RHS": []
+              }
+            ]
+          }
+        ]
+      }
+      ]
+      }
+    ]
+}
