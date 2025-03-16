@@ -30,6 +30,24 @@ export class Node {
         this.RHS.map((x : Node) => x.assignDepths(currentDepth+1))
     }
 
+    getSubtreeStringArr(totalString : string[]) : void
+    {
+        if (this.RHS.length == 0)
+        {
+            totalString.push(this.LHS);
+        }
+
+         this.RHS.map((x : Node) => x.getSubtreeStringArr(totalString))
+    }
+
+    getSubtreeString() : string
+    {
+        let totalString : string[] = [];
+        this.getSubtreeStringArr(totalString);
+
+       return totalString.join(" ");
+    }
+
     assignWidths(currentWidth : number) : number
     {
         if (this.RHS && this.RHS.length > 0)
