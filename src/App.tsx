@@ -2,12 +2,14 @@ import './App.css'
 import Vertex from './components/Vertex.tsx'
 import { Node } from './components/Rule.ts'
 import { parseToJSON} from './parseBracketedStrings.ts'
-import { JSX, useEffect, useState } from "react";
+import { JSX, useState } from "react";
+import { SentenceInput }from "./components/SentenceInput.tsx";
 
 function parseNode(data: any): Node {
   const node = new Node(data.LHS, data.RHS.map(parseNode)); // Recursively create nodes
   return node;
 }
+
 
 const grammarRules = [
   "START -> T1",
@@ -32,8 +34,6 @@ const PartOfSpeechRules = [
   "N -> bells"
 ]
 
-const sentence = "the girl loved John with the bells";
-
 interface EarleyParserParameters
 {
   GrammarRules : string[],
@@ -41,7 +41,7 @@ interface EarleyParserParameters
   Sentence : string
 }
 
-async function parseSentence() : Promise<string[]> 
+async function parseSentence(sentence : string) : Promise<string[]> 
 {
 
   const bodyData : EarleyParserParameters = 
@@ -65,16 +65,20 @@ async function parseSentence() : Promise<string[]>
 }
 function App() {
   
-  const [data, setData] = useState<string[]|null>();
+  const [data, setData] = useState<string[]|null>(null);
 
-  useEffect(() => {
-    async function fetchData() {
-
-    const results : string[] = await parseSentence();
+  async function handleSetSentence(sentence : string) : Promise<void>
+{
+  const results : string[] = await parseSentence(sentence);
+  if (results.length > 0 )
+  {
     setData(results);
-    }
-    fetchData();
-  }, []); // runs only once.
+  }
+  else
+  {
+    setData(null);
+  }
+}
 
   let svg : JSX.Element;
 
@@ -97,14 +101,20 @@ function App() {
   }
   else
   {
-    svg = <p> Loading... </p>;
+    svg = <p> No parse tree found ... </p>;
   }
 
+
+  
   return (
+    
     <>
+    <SentenceInput aria-label='sentence' onSubmit={handleSetSentence}/> 
     {svg}
     </> 
   )
 }
 
 export default App
+
+
