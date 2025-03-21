@@ -39,3 +39,32 @@
 .read-the-docs {
   color: #888;
 }
+
+.section {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.card-header {
+  background-color: #f4f4f4;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.card-content {
+  padding: 10px;
+  max-height: 300px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.card-content.closed {
+  max-height: 0;
+  padding: 0 10px;
+}

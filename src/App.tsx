@@ -4,6 +4,7 @@ import { Node } from './components/Rule.ts'
 import { parseToJSON} from './parseBracketedStrings.ts'
 import { JSX, useState } from "react";
 import { SentenceInput }from "./components/SentenceInput.tsx";
+import CollapsibleCard from "./components/CollapsibleCard.tsx";
 
 function parseNode(data: any): Node {
   const node = new Node(data.LHS, data.RHS.map(parseNode)); // Recursively create nodes
@@ -66,7 +67,6 @@ async function parseSentence(sentence : string) : Promise<string[]>
 function App() {
   
   const [data, setData] = useState<string[]|null>(null);
-  const [strings, setStrings] = useState<string[]>([]);
 
   async function handleSetSentence(sentence : string) : Promise<void>
 {
@@ -106,20 +106,7 @@ function App() {
   }
 
 
-   // Handle file selection
-   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Read the file as text and split it into strings by newline or space
-        const fileContent = reader.result as string;
-        const lines = fileContent.split("\n").map(line => line.trim()).filter(line => line.length > 0);
-        setStrings(lines); // Update state with the list of strings
-      };
-      reader.readAsText(file); // Read the file as text
-    }
-  };
+   
 
   return (
     
@@ -127,43 +114,19 @@ function App() {
     <div className="container">
       <SentenceInput aria-label='sentence' onSubmit={handleSetSentence}/> 
     </div>
-
-
     <div className="content">
-        {/* Left Sidebar */}
+
         <div className="sidebar">
-          <div className="section grammar">
-            <h3>Grammar Rules</h3>
-
-                  <button onClick={() => document.getElementById("file-input")?.click()}>
-                Open File Dialog
-              </button>
-
-            <input
-              type="file"
-              id="file-input"
-              style={{ display: "none" }} // Hide the file input
-              onChange={handleFileChange} // Handle file selection
-              accept=".txt" // Optional: restrict file types to .txt
-            />
-
-                <ul>
-              {strings.map((str, index) => (
-                <li key={index}>{str}</li>
-              ))}
-        </ul>          
-        </div>
-          <div className="section vocabulary">
-            <h3>Vocabulary</h3>
-            <p>(Part of speech rules go here)</p>
-          </div>
+              
+            <CollapsibleCard title="Grammar Rules" />
+            <CollapsibleCard title="Vocabulary" />
         </div>
 
-        {/* Parse Tree Display */}
         <div className="parse-tree">
           <h3>Parse Tree</h3>
           {svg}
         </div>
+
     </div>
     </> 
   )
