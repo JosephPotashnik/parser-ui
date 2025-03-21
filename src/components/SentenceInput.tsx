@@ -14,22 +14,23 @@ export function SentenceInput(props : sentenceInputProps) {
         }
       };
 
-    return (
-        <div style={{ width: "100%", padding: "0 20px" }}>
+      return (
+        <div style={{ maxWidth: "600px", width: "100%", margin: "0 auto", display: "inline-block" }}>
             <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Type something..."
-            style={{
-                width: "100%", // Full screen width
-                padding: "10px", // Padding for better appearance
-                fontSize: "16px", // Font size for readability
-                borderRadius: "5px", // Rounded corners
-                border: "1px solid #ccc", // Light border
-              }}            />
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Type something..."
+                style={{
+                    width: "100%", 
+                    padding: "10px", 
+                    fontSize: "16px", 
+                    borderRadius: "5px", 
+                    border: "1px solid #ccc",
+                }}
+            />
         </div>
-      );
+    );
 }
 
