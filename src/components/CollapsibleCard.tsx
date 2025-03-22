@@ -3,13 +3,15 @@ import "../App.css"; // Ensure styles are included
 
 interface CollapsibleCardProps {
   title: string;
+  rules : string[];
 }
 
-export default function CollapsibleCard({ title }: CollapsibleCardProps) {
+
+export default function CollapsibleCard({ title, rules }: CollapsibleCardProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const [strings, setStrings] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  {/*
   // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -23,17 +25,13 @@ export default function CollapsibleCard({ title }: CollapsibleCardProps) {
       reader.readAsText(file);
     }
   };
+  */}
 
   // Parse strings into part of speech -> words pairs (assuming format: "POS -> word")
-  const parsedData = strings
+  {/*const parsedData = strings
     .map(line => line.split("->").map(part => part.trim()))
-    .filter(pair => pair.length === 2) as [string, string][];
+    .filter(pair => pair.length === 2) as [string, string][];*/}
 
-  // Group words by part of speech
-  const groupedData: Record<string, string[]> = parsedData.reduce((acc, [pos, word]) => {
-    acc[pos] = acc[pos] ? [...acc[pos], word] : [word];
-    return acc;
-  }, {} as Record<string, string[]>);
 
   return (
     <div className="section">
@@ -44,31 +42,29 @@ export default function CollapsibleCard({ title }: CollapsibleCardProps) {
       <div className={`card-content ${isOpen ? "open" : "closed"}`}>
 
         {/* Open File Dialog Button */}
-        <button onClick={() => fileInputRef.current?.click()}>Open File Dialog</button>
+        {/*<button onClick={() => fileInputRef.current?.click()}>Open File Dialog</button>
 
-        {/* Hidden File Input */}
+        {/* Hidden File Input 
         <input
           type="file"
           ref={fileInputRef}
           style={{ display: "none" }}
           onChange={handleFileChange}
           accept=".txt"
-        />
+        /> *}
 
        
         {/* Table View */}
           <table>
             <thead>
               <tr>
-                <th>Part of Speech</th>
-                <th>Word</th>
+                <th>Rule</th>
               </tr>
             </thead>
             <tbody>
-              {parsedData.map(([pos, word], index) => (
+              {rules.map((x : string, index) => (
                 <tr key={index}>
-                  <td>{pos}</td>
-                  <td>{word}</td>
+                  <td>{x}</td>
                 </tr>
               ))}
             </tbody>

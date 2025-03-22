@@ -12,7 +12,7 @@ function parseNode(data: any): Node {
 }
 
 
-const grammarRules = [
+const initialGrammarRules = [
   "START -> T1",
 "T1 -> NP VP",
 "VP -> V0",
@@ -23,16 +23,46 @@ const grammarRules = [
 "NP -> D N",
 "NP -> PN",
 "NP -> NP PP",
-"VP -> VP PP"
+"VP -> VP PP",
+"NP -> D NBAR",
+"NBAR -> A NBAR",
+"NBAR -> A N"
 ];
 
-const PartOfSpeechRules = [
+const initialPOSRules = [
   "PN -> John",
+  "PN -> Mary",
+  "PN -> David",
+  "PN -> Eve",
   "V1 -> loved",
+  "V1 -> met",
+  "V1 -> saw",
+  "V0 -> fell",
+  "V0 -> cried",
+  "V0 -> ran",
+  "V2 -> went",
+  "V2 -> arrived",
+  "V3 -> knew",
+  "V3 -> said",
   "D -> the",
+  "D -> a",
+  "N -> man",
+  "N -> woman",
   "N -> girl",
+  "N -> child",
+  "N -> bells",
+  "N -> cat",
+  "N -> dog",
+  "N -> rabbit",
   "P -> with",
-  "N -> bells"
+  "P -> to",
+  "P -> from",
+  "P -> for",
+  "A -> pretty",
+  "A -> big",
+  "A -> small",
+  "A -> cheap",
+  "A -> expensive"
 ]
 
 interface EarleyParserParameters
@@ -42,13 +72,13 @@ interface EarleyParserParameters
   Sentence : string
 }
 
-async function parseSentence(sentence : string) : Promise<string[]> 
+async function parseSentence(sentence : string, grammarRules : string[], POSRules : string[]) : Promise<string[]> 
 {
 
   const bodyData : EarleyParserParameters = 
   {
     GrammarRules : grammarRules,
-    PartOfSpeechRules : PartOfSpeechRules,
+    PartOfSpeechRules : POSRules,
     Sentence : sentence
   }
 
@@ -66,26 +96,28 @@ async function parseSentence(sentence : string) : Promise<string[]>
 }
 function App() {
   
-  const [data, setData] = useState<string[]|null>(null);
+  const [parsedSentence, setParsedSentence] = useState<string[]|null>(null);
+  const [POSRules, setPOSRules] = useState<string[]>(initialPOSRules);
+  const [grammarRules, setGrammarRules] = useState<string[]>(initialGrammarRules);
 
   async function handleSetSentence(sentence : string) : Promise<void>
-{
-  const results : string[] = await parseSentence(sentence);
-  if (results.length > 0 )
   {
-    setData(results);
-  }
-  else
-  {
-    setData(null);
-  }
+    const results : string[] = await parseSentence(sentence, grammarRules, POSRules);
+    if (results.length > 0 )
+    {
+      setParsedSentence(results);
+    }
+    else
+    {
+      setParsedSentence(null);
+    }
 }
 
   let svg : JSX.Element;
 
-  if (data != null)
+  if (parsedSentence != null)
   {
-    const treee = parseToJSON(data[0]);
+    const treee = parseToJSON(parsedSentence[0]);
     const node : Node = parseNode(treee);
     node.assignDepths(0);
     const width = node.assignWidths(0);
@@ -117,9 +149,8 @@ function App() {
     <div className="content">
 
         <div className="sidebar">
-              
-            <CollapsibleCard title="Grammar Rules" />
-            <CollapsibleCard title="Vocabulary" />
+            <CollapsibleCard title="Grammar Rules" rules={grammarRules}/>
+            <CollapsibleCard title="Vocabulary" rules={POSRules} />
         </div>
 
         <div className="parse-tree">
