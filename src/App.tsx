@@ -4,6 +4,7 @@ import { Node } from './components/Rule.ts'
 import { parseToJSON} from './parseBracketedStrings.ts'
 import { JSX, useState } from "react";
 import { SentenceInput }from "./components/SentenceInput.tsx";
+import CollapsibleCard from "./components/CollapsibleCard.tsx";
 
 function parseNode(data: any): Node {
   const node = new Node(data.LHS, data.RHS.map(parseNode)); // Recursively create nodes
@@ -11,7 +12,7 @@ function parseNode(data: any): Node {
 }
 
 
-const grammarRules = [
+const initialGrammarRules = [
   "START -> T1",
 "T1 -> NP VP",
 "VP -> V0",
@@ -22,16 +23,46 @@ const grammarRules = [
 "NP -> D N",
 "NP -> PN",
 "NP -> NP PP",
-"VP -> VP PP"
+"VP -> VP PP",
+"NP -> D NBAR",
+"NBAR -> A NBAR",
+"NBAR -> A N"
 ];
 
-const PartOfSpeechRules = [
+const initialPOSRules = [
   "PN -> John",
+  "PN -> Mary",
+  "PN -> David",
+  "PN -> Eve",
   "V1 -> loved",
+  "V1 -> met",
+  "V1 -> saw",
+  "V0 -> fell",
+  "V0 -> cried",
+  "V0 -> ran",
+  "V2 -> went",
+  "V2 -> arrived",
+  "V3 -> knew",
+  "V3 -> said",
   "D -> the",
+  "D -> a",
+  "N -> man",
+  "N -> woman",
   "N -> girl",
+  "N -> child",
+  "N -> bells",
+  "N -> cat",
+  "N -> dog",
+  "N -> rabbit",
   "P -> with",
-  "N -> bells"
+  "P -> to",
+  "P -> from",
+  "P -> for",
+  "A -> pretty",
+  "A -> big",
+  "A -> small",
+  "A -> cheap",
+  "A -> expensive"
 ]
 
 interface EarleyParserParameters
@@ -41,13 +72,13 @@ interface EarleyParserParameters
   Sentence : string
 }
 
-async function parseSentence(sentence : string) : Promise<string[]> 
+async function parseSentence(sentence : string, grammarRules : string[], POSRules : string[]) : Promise<string[]> 
 {
 
   const bodyData : EarleyParserParameters = 
   {
     GrammarRules : grammarRules,
-    PartOfSpeechRules : PartOfSpeechRules,
+    PartOfSpeechRules : POSRules,
     Sentence : sentence
   }
 
@@ -65,27 +96,28 @@ async function parseSentence(sentence : string) : Promise<string[]>
 }
 function App() {
   
-  const [data, setData] = useState<string[]|null>(null);
-  const [strings, setStrings] = useState<string[]>([]);
+  const [parsedSentence, setParsedSentence] = useState<string[]|null>(null);
+  const [POSRules, setPOSRules] = useState<string[]>(initialPOSRules);
+  const [grammarRules, setGrammarRules] = useState<string[]>(initialGrammarRules);
 
   async function handleSetSentence(sentence : string) : Promise<void>
-{
-  const results : string[] = await parseSentence(sentence);
-  if (results.length > 0 )
   {
-    setData(results);
-  }
-  else
-  {
-    setData(null);
-  }
+    const results : string[] = await parseSentence(sentence, grammarRules, POSRules);
+    if (results.length > 0 )
+    {
+      setParsedSentence(results);
+    }
+    else
+    {
+      setParsedSentence(null);
+    }
 }
 
   let svg : JSX.Element;
 
-  if (data != null)
+  if (parsedSentence != null)
   {
-    const treee = parseToJSON(data[0]);
+    const treee = parseToJSON(parsedSentence[0]);
     const node : Node = parseNode(treee);
     node.assignDepths(0);
     const width = node.assignWidths(0);
@@ -106,20 +138,7 @@ function App() {
   }
 
 
-   // Handle file selection
-   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Read the file as text and split it into strings by newline or space
-        const fileContent = reader.result as string;
-        const lines = fileContent.split("\n").map(line => line.trim()).filter(line => line.length > 0);
-        setStrings(lines); // Update state with the list of strings
-      };
-      reader.readAsText(file); // Read the file as text
-    }
-  };
+   
 
   return (
     
@@ -127,43 +146,18 @@ function App() {
     <div className="container">
       <SentenceInput aria-label='sentence' onSubmit={handleSetSentence}/> 
     </div>
-
-
     <div className="content">
-        {/* Left Sidebar */}
+
         <div className="sidebar">
-          <div className="section grammar">
-            <h3>Grammar Rules</h3>
-
-                  <button onClick={() => document.getElementById("file-input")?.click()}>
-                Open File Dialog
-              </button>
-
-            <input
-              type="file"
-              id="file-input"
-              style={{ display: "none" }} // Hide the file input
-              onChange={handleFileChange} // Handle file selection
-              accept=".txt" // Optional: restrict file types to .txt
-            />
-
-                <ul>
-              {strings.map((str, index) => (
-                <li key={index}>{str}</li>
-              ))}
-        </ul>          
-        </div>
-          <div className="section vocabulary">
-            <h3>Vocabulary</h3>
-            <p>(Part of speech rules go here)</p>
-          </div>
+            <CollapsibleCard title="Grammar Rules" rules={grammarRules}/>
+            <CollapsibleCard title="Vocabulary" rules={POSRules} />
         </div>
 
-        {/* Parse Tree Display */}
         <div className="parse-tree">
           <h3>Parse Tree</h3>
           {svg}
         </div>
+
     </div>
     </> 
   )
