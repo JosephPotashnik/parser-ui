@@ -101,6 +101,11 @@ function App() {
   const [POSRules, setPOSRules] = useState<string[]>(initialPOSRules);
   const [grammarRules, setGrammarRules] = useState<string[]>(initialGrammarRules);
 
+  void function ToSetPOSRules()
+  {
+    setPOSRules([]);
+    setGrammarRules([]);
+  }
   async function handleSetSentence(sentence : string) : Promise<void>
   {
     const results : string[] = await parseSentence(sentence, grammarRules, POSRules);

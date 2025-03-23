@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "../App.css"; // Ensure styles are included
 
 interface CollapsibleCardProps {
@@ -9,9 +9,9 @@ interface CollapsibleCardProps {
 
 export default function CollapsibleCard({ title, rules }: CollapsibleCardProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  {/*const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  {/*
+  
   // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
