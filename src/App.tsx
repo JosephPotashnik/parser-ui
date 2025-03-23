@@ -6,6 +6,8 @@ import { JSX, useState } from "react";
 import { SentenceInput }from "./components/SentenceInput.tsx";
 import CollapsibleCard from "./components/CollapsibleCard.tsx";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5158';
+
 function parseNode(data: any): Node {
   const node = new Node(data.LHS, data.RHS.map(parseNode)); // Recursively create nodes
   return node;
@@ -82,8 +84,7 @@ async function parseSentence(sentence : string, grammarRules : string[], POSRule
     Sentence : sentence
   }
 
-  const url = "http://localhost:5158/";
-  const response = await fetch(url+"ParseSentence/", {
+  const response = await fetch(`${API_URL}/ParseSentence/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bodyData) 
