@@ -108,7 +108,9 @@ function App() {
   }
   async function handleSetSentence(sentence : string) : Promise<void>
   {
+    console.log(sentence);
     const results : string[] = await parseSentence(sentence, grammarRules, POSRules);
+    
     if (results.length > 0 )
     {
       setParsedSentence(results);
@@ -143,15 +145,12 @@ function App() {
     svg = <p> No parse tree found ... </p>;
   }
 
-
-   
-
   return (
-   
     <>
-    <div className="container">
-      <SentenceInput aria-label='sentence' onSubmit={handleSetSentence}/> 
-    </div>
+
+      <div>
+        <SentenceInput aria-label='sentence to parse' onSubmitSentenceInputForm={handleSetSentence}/> 
+      </div>
     <div className="content">
 
         <div className="sidebar">
