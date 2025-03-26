@@ -147,7 +147,7 @@ function App() {
    
 
   return (
-    
+   
     <>
     <div className="container">
       <SentenceInput aria-label='sentence' onSubmit={handleSetSentence}/> 
