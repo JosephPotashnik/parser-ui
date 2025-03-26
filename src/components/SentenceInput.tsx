@@ -1,36 +1,34 @@
-import { useState } from "react";
-
 interface sentenceInputProps 
 {
-    onSubmit: (value: string) => void 
+    onSubmitSentenceInputForm: (value: string) => void 
 }
 export function SentenceInput(props : sentenceInputProps) {
 
-    const [input, setInput] = useState("");
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter" && input.trim()) {
-            props.onSubmit(input);
-        }
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevent the default form submission
+    
+        const formData = new FormData(event.currentTarget);
+        const inputValue = formData.get("inputField") as string; // Assert as string
+        props.onSubmitSentenceInputForm(inputValue);
       };
-
       return (
-        <div style={{ maxWidth: "600px", width: "100%", margin: "0 auto", display: "inline-block" }}>
-            <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Type something..."
-                style={{
-                    width: "100%", 
-                    padding: "10px", 
-                    fontSize: "16px", 
-                    borderRadius: "5px", 
-                    border: "1px solid #ccc",
-                }}
-            />
-        </div>
+        
+      
+<form onSubmit={handleSubmit} className="flex justify-center ">
+  <div className="flex items-center space-x-4">
+    <label htmlFor="inputField" className="text-sm font-medium">Sentence:</label>
+    <input
+      type="text"
+      id="inputField"
+      name="inputField" // Needed for form submission
+      className="mt-1 text-center block p-2 border border-gray-300 rounded-md min-w-[50vw]"
+    />
+  </div>
+</form>
+
+
+
     );
 }
 

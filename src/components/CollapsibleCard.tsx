@@ -36,7 +36,7 @@ export default function CollapsibleCard({ title, rules }: CollapsibleCardProps) 
   return (
     <div className="section">
       <div className="card-header" onClick={() => setIsOpen(!isOpen)}>
-        <h3>{title}</h3>
+        <h3 className="text-yellow-900">{title}</h3>
         <span>{isOpen ? "▲" : "▼"}</span>
       </div>
       <div className={`card-content ${isOpen ? "open" : "closed"}`}>
