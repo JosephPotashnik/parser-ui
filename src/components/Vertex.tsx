@@ -47,11 +47,13 @@ export default function Vertex({ node, parentCoords, spacing}: VertexProps): JSX
                 <line x1={parentCoords[0]} y1={parentCoords[1]} x2={x} y2={y} stroke="black" strokeWidth="2" />
             )}
 
-            <circle cx={x} cy={y} r="10" fill="blue" stroke="black" strokeWidth="2" onClick={() => setCurrentVisible(currentVisible => !currentVisible)}/>
+            {children}
+
+            <circle className="fill-green-700" cx={x} cy={y} r="10" stroke="black" strokeWidth="2" onClick={() => setCurrentVisible(currentVisible => !currentVisible)}/>
 
             <text x={x + 15} y={y} fontSize="14" fill="black" alignmentBaseline="middle">{node.LHS}</text>
 
-            {children}
+            
         </g>
     );
 }
