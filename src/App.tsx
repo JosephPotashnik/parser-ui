@@ -2,10 +2,10 @@ import './App.css'
 import Vertex from './components/Vertex.tsx'
 import { Node } from './components/Rule.ts'
 import { parseToJSON} from './parseBracketedStrings.ts'
-import { JSX, useState } from "react";
+import { JSX, useState, useRef } from "react";
 import { SentenceInput }from "./components/SentenceInput.tsx";
 import CollapsibleCard from "./components/CollapsibleCard.tsx";
-
+import Dropdown from './components/Dropdown.tsx';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5158';
 
 function parseNode(data: any): Node {
@@ -97,35 +97,51 @@ async function parseSentence(sentence : string, grammarRules : string[], POSRule
 }
 function App() {
   
-  const [parsedSentence, setParsedSentence] = useState<string[]|null>(null);
+  const parsedSentence = useRef<string[]|null>(null);
   const [POSRules, setPOSRules] = useState<string[]>(initialPOSRules);
   const [grammarRules, setGrammarRules] = useState<string[]>(initialGrammarRules);
+  const [selectedParse, setSelectedParse] = useState<number>(0);
+  const [, setDummy] = useState(0);
 
   void function ToSetPOSRules()
   {
     setPOSRules([]);
     setGrammarRules([]);
   }
-  async function handleSetSentence(sentence : string) : Promise<void>
+  async function handleParseSentence(sentence : string) : Promise<void>
   {
     console.log(sentence);
     const results : string[] = await parseSentence(sentence, grammarRules, POSRules);
     
     if (results.length > 0 )
     {
-      setParsedSentence(results);
+      parsedSentence.current = results;
+      setSelectedParse(0); //select the first parse (if unambiguous, this is the only parse)
+      setDummy(dummy => dummy + 1);
     }
     else
     {
-      setParsedSentence(null);
+      parsedSentence.current = null;
     }
-}
+
+  }
+
+  function onChange(value : number) :void
+  {
+    console.log(`selected parse is ${value-1}`)
+    setSelectedParse(value-1); //zero based.
+  }
 
   let svg : JSX.Element;
+  let options : number[] = [];
 
-  if (parsedSentence != null)
+  if (parsedSentence.current != null)
   {
-    const treee = parseToJSON(parsedSentence[0]);
+    console.log("entered parsed.Senetence.current != null");
+
+    options  = parsedSentence.current.map((_parse, index) => index+1);
+
+    const treee = parseToJSON(parsedSentence.current[selectedParse]);
     const node : Node = parseNode(treee);
     node.assignDepths(0);
     const width = node.assignWidths(0);
@@ -145,11 +161,12 @@ function App() {
     svg = <p> No parse tree found ... </p>;
   }
 
+
   return (
     <>
 
       <div>
-        <SentenceInput aria-label='sentence to parse' onSubmitSentenceInputForm={handleSetSentence}/> 
+        <SentenceInput aria-label='sentence to parse' onSubmitSentenceInputForm={handleParseSentence}/> 
       </div>
     <div className="content">
 
@@ -158,8 +175,8 @@ function App() {
             <CollapsibleCard title="Vocabulary" rules={POSRules} />
         </div>
 
-        <div className="parse-tree">
-          <h3>Parse Tree</h3>
+        <div className="parse-tree">          
+          {parsedSentence.current != null && <Dropdown options={options} value={selectedParse+1} onChange={onChange}/> }
           {svg}
         </div>
 
