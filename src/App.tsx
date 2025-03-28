@@ -91,17 +91,16 @@ async function parseSentence(sentence : string, grammarRules : string[], POSRule
   });
 
   const data = (await response.json()) as string[];
-  console.log(data);
   return data;
 
 }
 function App() {
   
-  const parsedSentence = useRef<string[]|null>(null);
+  //const parsedSentence = useRef<string[]|null>(null);
   const [POSRules, setPOSRules] = useState<string[]>(initialPOSRules);
   const [grammarRules, setGrammarRules] = useState<string[]>(initialGrammarRules);
   const [selectedParse, setSelectedParse] = useState<number>(0);
-  const [, setDummy] = useState(0);
+  const [parsedSentence, setParsedSentence] = useState<string[]|null>(null);
 
   void function ToSetPOSRules()
   {
@@ -110,38 +109,30 @@ function App() {
   }
   async function handleParseSentence(sentence : string) : Promise<void>
   {
-    console.log(sentence);
     const results : string[] = await parseSentence(sentence, grammarRules, POSRules);
     
+    setParsedSentence(results);
     if (results.length > 0 )
     {
-      parsedSentence.current = results;
       setSelectedParse(0); //select the first parse (if unambiguous, this is the only parse)
-      setDummy(dummy => dummy + 1);
-    }
-    else
-    {
-      parsedSentence.current = null;
     }
 
   }
 
   function onChange(value : number) :void
   {
-    console.log(`selected parse is ${value-1}`)
     setSelectedParse(value-1); //zero based.
   }
 
   let svg : JSX.Element;
   let options : number[] = [];
 
-  if (parsedSentence.current != null)
+
+  if (parsedSentence != null && parsedSentence.length > 0)
   {
-    console.log("entered parsed.Senetence.current != null");
+    options  = parsedSentence.map((_parse, index) => index+1);
 
-    options  = parsedSentence.current.map((_parse, index) => index+1);
-
-    const treee = parseToJSON(parsedSentence.current[selectedParse]);
+    const treee = parseToJSON(parsedSentence[selectedParse]);
     const node : Node = parseNode(treee);
     node.assignDepths(0);
     const width = node.assignWidths(0);
@@ -176,7 +167,7 @@ function App() {
         </div>
 
         <div className="parse-tree">          
-          {parsedSentence.current != null && <Dropdown options={options} value={selectedParse+1} onChange={onChange}/> }
+          {parsedSentence != null && parsedSentence.length > 0 && <Dropdown options={options} value={selectedParse+1} onChange={onChange}/> }
           {svg}
         </div>
 
