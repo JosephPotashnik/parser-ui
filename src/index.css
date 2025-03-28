@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-
 .container {
   display: flex;
   flex-direction: column;
@@ -20,11 +19,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.section {
-  padding: 10px;
-  border-radius: 5px;
 }
 
 .parse-tree {

@@ -2,7 +2,7 @@ import './App.css'
 import Vertex from './components/Vertex.tsx'
 import { Node } from './components/Rule.ts'
 import { parseToJSON} from './parseBracketedStrings.ts'
-import { JSX, useState, useRef } from "react";
+import { JSX, useState } from "react";
 import { SentenceInput }from "./components/SentenceInput.tsx";
 import CollapsibleCard from "./components/CollapsibleCard.tsx";
 import Dropdown from './components/Dropdown.tsx';
@@ -102,13 +102,21 @@ function App() {
   const [selectedParse, setSelectedParse] = useState<number>(0);
   const [parsedSentence, setParsedSentence] = useState<string[]|null>(null);
 
-  void function ToSetPOSRules()
+  function handleSetNewGrammarRules(rules : string[]) : void
   {
-    setPOSRules([]);
-    setGrammarRules([]);
+    setGrammarRules(rules);
   }
+
+  function handleSetNewPOSRules(rules : string[]) : void
+  {
+    setPOSRules(rules);
+  }
+
   async function handleParseSentence(sentence : string) : Promise<void>
   {
+    console.log(`sentence is ${sentence}`);
+    console.log(`grammar rules are ${grammarRules.join(" ")}`)
+    console.log(`POS rules are ${POSRules.join(" ")}`)
     const results : string[] = await parseSentence(sentence, grammarRules, POSRules);
     
     setParsedSentence(results);
@@ -162,8 +170,8 @@ function App() {
     <div className="content">
 
         <div className="sidebar">
-            <CollapsibleCard title="Grammar Rules" rules={grammarRules}/>
-            <CollapsibleCard title="Vocabulary" rules={POSRules} />
+            <CollapsibleCard title="Grammar Rules" defaultRules={grammarRules} handleSetRules={handleSetNewGrammarRules}/>
+            <CollapsibleCard title="Vocabulary" defaultRules={POSRules} handleSetRules={handleSetNewPOSRules} />
         </div>
 
         <div className="parse-tree">          
