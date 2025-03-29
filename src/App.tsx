@@ -170,8 +170,8 @@ function App() {
     <div className="content">
 
         <div className="sidebar">
-            <CollapsibleCard title="Grammar Rules" defaultRules={grammarRules} handleSetRules={handleSetNewGrammarRules}/>
-            <CollapsibleCard title="Vocabulary" defaultRules={POSRules} handleSetRules={handleSetNewPOSRules} />
+            <CollapsibleCard title="Grammar Rules" defaultRules={grammarRules} handleSetRules={handleSetNewGrammarRules} routeName='grammars'/>
+            <CollapsibleCard title="Vocabulary" defaultRules={POSRules} handleSetRules={handleSetNewPOSRules} routeName='vocs'/>
         </div>
 
         <div className="parse-tree">          
