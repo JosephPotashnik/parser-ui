@@ -1,7 +1,8 @@
 # Earley Parser UI
 
-A React-based user interface for interacting with an **Earley Parser server** via a REST API, which must be running to test full functionality.  
-You can clone it <a href="https://github.com/JosephPotashnik/EarleyParserREST"> here </a>
+A React-based user interface for interacting with an **Earley Parser server** via a REST API, which must be running to test full functionality (you can clone it <a href="https://github.com/JosephPotashnik/EarleyParserREST"> here</a>).
+
+A live version of the UI is <a href="https://cosmic-marshmallow-19b8ab.netlify.app/"> available</a>. The Earley Parser backend is hosted on **Render.com**. Since Render automatically suspends free-tier services when inactive, the server may take **up to a minute** to spin up after a period of inactivity. If the first API request takes longer than expected, please wait and try again.
 
 ## Features
 
