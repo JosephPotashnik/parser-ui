@@ -1,54 +1,92 @@
-# React + TypeScript + Vite
+# Earley Parser UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based user interface for interacting with an **Earley Parser server** via a REST API, which must be running to test full functionality.  
+You can clone it <a href="https://github.com/JosephPotashnik/EarleyParserREST"> here </a>
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User-friendly interface for sending parsing requests
+- Displays parsed results from the Earley Parser backend
+- Built with **React**, **Vite**, and **TypeScript**
+- Styled using **Tailwind CSS**
+- Fast and lightweight frontend optimized for performance
 
-## Expanding the ESLint configuration
+## Installation & Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- [Node.js](https://nodejs.org/) (Latest LTS recommended)
+- [npm](https://www.npmjs.com/) (Comes with Node.js) or [yarn](https://yarnpkg.com/)
+
+### Steps
+
+1. Clone the repository:
+
+   ```sh
+   git clone <repo-url>
+   cd parser-ui
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```sh
+   npm run dev
+   ```
+
+## Project Structure
+
+```
+parser-ui/
+│── src/                  # Source code
+│   ├── components/       # Reusable UI components
+│   ├── pages/            # Application pages
+│   ├── api/              # API client functions
+│   ├── hooks/            # Custom React hooks
+│   ├── App.tsx           # Main application entry point
+│   ├── main.tsx          # React entry point
+│── public/               # Static assets
+│── index.html            # Root HTML file
+│── package.json          # Project configuration
+│── tailwind.config.ts    # Tailwind CSS configuration
+│── tsconfig.json         # TypeScript configuration
+│── vite.config.ts        # Vite configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+If the parser backend requires an API key or runs on a configurable URL, create a `.env` file in the root directory, or modify the url/port accordingly in the code.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
 ```
+VITE_API_URL=http://localhost:5000
+```
+
+Replace the URL with the actual backend server URL if necessary.
+
+## Available Scripts
+
+- **`npm run dev`** – Start the development server
+- **`npm run build`** – Build the project for production
+- **`npm run preview`** – Preview the production build
+- **`npm run lint`** – Run ESLint on the codebase
+
+## Deployment
+
+To build and deploy the app:
+
+```sh
+npm run build
+```
+
+This generates a `dist/` folder with the production-ready files.  
+You can deploy it using services like **Vercel, Netlify, or Render**.
+
+
+## License
+
+[MIT](LICENSE)
