@@ -162,25 +162,33 @@ function App() {
 
 
   return (
-    <>
-
-      <div>
-        <SentenceInput aria-label='sentence to parse' onSubmitSentenceInputForm={handleParseSentence}/> 
+    <div className="min-h-screen bg-base-200">
+      <div className="navbar bg-primary text-primary-content shadow-lg">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold px-4">Sentence Parser</h1>
+        </div>
       </div>
-    <div className="content">
 
-        <div className="sidebar">
+      <div className="container mx-auto p-4">
+        <div className="bg-base-100 rounded-lg shadow-lg p-4 mb-4">
+          <SentenceInput aria-label='sentence to parse' onSubmitSentenceInputForm={handleParseSentence}/>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="lg:col-span-1 flex flex-col gap-4">
             <CollapsibleCard title="Grammar Rules" defaultRules={grammarRules} handleSetRules={handleSetNewGrammarRules} routeName='grammars'/>
             <CollapsibleCard title="Vocabulary" defaultRules={POSRules} handleSetRules={handleSetNewPOSRules} routeName='vocs'/>
-        </div>
+          </div>
 
-        <div className="parse-tree">          
-          {parsedSentence != null && parsedSentence.length > 0 && <Dropdown options={options} value={selectedParse+1} onChange={onChange}/> }
-          {svg}
+          <div className="lg:col-span-3 bg-base-100 rounded-lg shadow-lg p-6">
+            {parsedSentence != null && parsedSentence.length > 0 && <Dropdown options={options} value={selectedParse+1} onChange={onChange}/> }
+            <div className="flex justify-center items-center">
+              {svg}
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
-    </> 
   )
 }
 

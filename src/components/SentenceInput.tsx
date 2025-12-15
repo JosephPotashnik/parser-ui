@@ -13,30 +13,27 @@ export function SentenceInput(props : sentenceInputProps) {
         props.onSubmitSentenceInputForm(inputValue);
       };
       return (
-        
-      
-<form onSubmit={handleSubmit} className="flex justify-center ">
-  <div className="flex items-center space-x-4">
-    <label htmlFor="inputField" className="text-sm font-medium">Sentence:</label>
+<form onSubmit={handleSubmit} className="flex justify-center p-4">
+  <div className="flex items-center gap-4">
+    <label htmlFor="inputField" className="label">
+      <span className="label-text text-lg font-semibold">Sentence:</span>
+    </label>
     <input
       type="text"
       id="inputField"
-      name="inputField" // Needed for form submission
-      className="mt-1 text-center block p-2 border border-black-300 shadow-md rounded-md min-w-[50vw]"
+      name="inputField"
+      className="input input-bordered input-primary w-[50vw] bg-base-100"
+      placeholder="Enter a sentence to parse..."
     />
 
-  <button
-    type="submit" 
-    className="mt-1 px-4 py-2 bg-yellow-500 text-black font-medium rounded-md border border-black shadow-md 
-              hover:bg-yellow-600 hover:shadow-lg active:bg-red-700 transition-all"
-  >
-    Submit
-  </button>
+    <button
+      type="submit"
+      className="btn btn-accent"
+    >
+      Submit
+    </button>
   </div>
 </form>
-
-
-
     );
 }
 

@@ -80,53 +80,61 @@ export default function CollapsibleCard({ title, defaultRules, handleSetRules, r
   };
 
   return (
-    <div className="section border border-black-300 rounded-md">
+    <div className="card bg-base-100 shadow-xl border border-base-300">
       {/* Collapsible Header */}
-      <div className="card-header bg-orange-800 flex justify-between p-2 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-        <h3 className="text-white">{title}</h3>
-        <span>{isOpen ? "▲" : "▼"}</span>
+      <div
+        className="card-header bg-primary text-primary-content flex justify-between p-4 cursor-pointer rounded-t-lg hover:bg-opacity-90 transition-all"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="card-title text-lg">{title}</h3>
+        <span className="text-xl">{isOpen ? "▲" : "▼"}</span>
       </div>
 
       {/* Collapsible Content */}
       {isOpen && (
-        <div className="card-content p-4">
+        <div className="card-body p-4">
           {/* Button to toggle dropdown */}
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg relative"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            Select or Upload File
-          </button>
+          <div className="relative">
+            <button
+              className="btn btn-secondary btn-sm mb-2"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              Select or Upload File
+            </button>
 
-          {/* Dropdown Menu */}
-          {showDropdown && (
-  <div
-    className="absolute left-0 mt-2 bg-white border rounded-lg shadow-lg z-50"
-    style={{ width: dropdownWidth }}
-  >
-              {files.length > 0 ? (
-                files.map((file, index) => (
-                  <button
-                    key={index}
-                    className="block w-full px-4 py-2 text-left hover:bg-gray-200"
-                    onClick={() => handleFileSelect(file)}
-                  >
-                    {file}
-                  </button>
-                ))
-              ) : (
-                <p className="px-4 py-2 text-gray-500">No files available</p>
-              )}
-
-              {/* Open File Dialog Button */}
-              <button
-                className="block w-full px-4 py-2 text-left bg-green-500 text-white hover:bg-green-600"
-                onClick={() => fileInputRef.current?.click()}
+            {/* Dropdown Menu */}
+            {showDropdown && (
+              <div
+                className="absolute left-0 mt-2 bg-base-100 border border-base-300 rounded-lg shadow-xl z-50 menu"
+                style={{ width: dropdownWidth }}
               >
-                Upload New File
-              </button>
-            </div>
-          )}
+                {files.length > 0 ? (
+                  files.map((file, index) => (
+                    <li key={index}>
+                      <button
+                        className="text-left hover:bg-base-200"
+                        onClick={() => handleFileSelect(file)}
+                      >
+                        {file}
+                      </button>
+                    </li>
+                  ))
+                ) : (
+                  <li className="px-4 py-2 text-base-content opacity-50">No files available</li>
+                )}
+
+                {/* Open File Dialog Button */}
+                <li>
+                  <button
+                    className="bg-success text-success-content hover:bg-success hover:brightness-90"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    Upload New File
+                  </button>
+                </li>
+              </div>
+            )}
+          </div>
 
           {/* Hidden file input */}
           <input
@@ -138,12 +146,12 @@ export default function CollapsibleCard({ title, defaultRules, handleSetRules, r
           />
 
           {/* Display Rules in Table */}
-          <div className="max-h-60 overflow-y-auto border border-gray-300 rounded-lg mt-4">
-            <table className="w-full border-collapse">
+          <div className="overflow-x-auto max-h-60 border border-base-300 rounded-lg">
+            <table className="table table-xs table-pin-rows">
               <tbody>
                 {rules.map((x: string, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="p-2">{x}</td>
+                  <tr key={index} className="hover">
+                    <td className="text-sm">{x}</td>
                   </tr>
                 ))}
               </tbody>
@@ -151,6 +159,8 @@ export default function CollapsibleCard({ title, defaultRules, handleSetRules, r
           </div>
         </div>
       )}
+      {/* Hidden span for text measurement */}
+      <span ref={textMeasureRef} className="absolute invisible whitespace-nowrap"></span>
     </div>
   );
 }

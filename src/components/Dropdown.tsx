@@ -8,20 +8,21 @@ interface DropdownProps {
 export default function Dropdown( props : DropdownProps) {
 
   return (
-
-    <div className="flex items-center space-x-4">
-        <h1> Parse Number: </h1>
-    <select
-      value={props.value}
-      onChange={(e) => props.onChange(Number(e.target.value))}
-      className="p-2 border rounded"
-    >
-      {props.options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
+    <div className="flex items-center gap-4 justify-center mb-4">
+      <label className="label">
+        <span className="label-text text-lg font-semibold">Parse Number:</span>
+      </label>
+      <select
+        value={props.value}
+        onChange={(e) => props.onChange(Number(e.target.value))}
+        className="select select-bordered select-primary w-24"
+      >
+        {props.options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
