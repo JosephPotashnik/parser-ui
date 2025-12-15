@@ -1,5 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
 @import "tailwindcss";
+@plugin "daisyui" {
+  themes: piano --default;
+}
+@plugin "daisyui/theme" {
+  name: "piano";
+  default: true;
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: #f8f8f8;
+  --color-base-300: #e8e8e8;
+  --color-base-content: #1a1a1a;
+  --color-primary: #1a1a1a;
+  --color-primary-content: #ffffff;
+  --color-secondary: #f5f5f5;
+  --color-secondary-content: #1a1a1a;
+  --color-accent: #4a4a4a;
+  --color-accent-content: #ffffff;
+  --color-neutral: #2d2d2d;
+  --color-neutral-content: #ffffff;
+  --color-info: #4a4a4a;
+  --color-info-content: #ffffff;
+  --color-success: #2d5016;
+  --color-success-content: #ffffff;
+  --color-warning: #8b7355;
+  --color-warning-content: #ffffff;
+  --color-error: #5c0a0a;
+  --color-error-content: #ffffff;
+}
 
 /* Apply Raleway font globally */
 body {
